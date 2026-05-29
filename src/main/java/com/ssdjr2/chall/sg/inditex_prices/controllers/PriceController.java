@@ -2,8 +2,8 @@ package com.ssdjr2.chall.sg.inditex_prices.controllers;
 
 import com.ssdjr2.chall.sg.inditex_prices.controllers.dtos.request.PriceSearchQueryDTO;
 import com.ssdjr2.chall.sg.inditex_prices.controllers.dtos.response.PriceSearchResponseDTO;
-import com.ssdjr2.chall.sg.inditex_prices.exceptions.AppExceptionCodeEnum;
-import com.ssdjr2.chall.sg.inditex_prices.exceptions.custom.CustomException;
+import com.ssdjr2.chall.sg.inditex_prices.controllers.exceptions.AppExceptionCodeEnum;
+import com.ssdjr2.chall.sg.inditex_prices.controllers.exceptions.custom.CustomException;
 import com.ssdjr2.chall.sg.inditex_prices.services.PriceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

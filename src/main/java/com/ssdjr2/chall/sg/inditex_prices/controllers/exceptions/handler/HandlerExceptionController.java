@@ -1,10 +1,10 @@
-package com.ssdjr2.chall.sg.inditex_prices.exceptions.handler;
+package com.ssdjr2.chall.sg.inditex_prices.controllers.exceptions.handler;
 
 import com.ssdjr2.chall.sg.inditex_prices.config.properties.GlobalProperties;
 import com.ssdjr2.chall.sg.inditex_prices.controllers.dtos.error.RespEntityErrorDTO;
 import com.ssdjr2.chall.sg.inditex_prices.controllers.mappers.RespEntityErrorMapper;
-import com.ssdjr2.chall.sg.inditex_prices.exceptions.AppExceptionCodeEnum;
-import com.ssdjr2.chall.sg.inditex_prices.exceptions.custom.CustomException;
+import com.ssdjr2.chall.sg.inditex_prices.controllers.exceptions.AppExceptionCodeEnum;
+import com.ssdjr2.chall.sg.inditex_prices.controllers.exceptions.custom.CustomException;
 import com.ssdjr2.chall.sg.inditex_prices.utils.UDateTimeService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

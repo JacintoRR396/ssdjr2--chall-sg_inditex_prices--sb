@@ -1,6 +1,6 @@
-package com.ssdjr2.chall.sg.inditex_prices.exceptions.custom;
+package com.ssdjr2.chall.sg.inditex_prices.controllers.exceptions.custom;
 
-import com.ssdjr2.chall.sg.inditex_prices.exceptions.AppExceptionCodeEnum;
+import com.ssdjr2.chall.sg.inditex_prices.controllers.exceptions.AppExceptionCodeEnum;
 import lombok.Getter;
 import org.springframework.web.server.ResponseStatusException;
 

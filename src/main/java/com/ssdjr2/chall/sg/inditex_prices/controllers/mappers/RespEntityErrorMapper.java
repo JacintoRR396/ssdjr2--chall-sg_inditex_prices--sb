@@ -1,7 +1,7 @@
 package com.ssdjr2.chall.sg.inditex_prices.controllers.mappers;
 
 import com.ssdjr2.chall.sg.inditex_prices.controllers.dtos.error.RespEntityErrorDTO;
-import com.ssdjr2.chall.sg.inditex_prices.exceptions.custom.CustomException;
+import com.ssdjr2.chall.sg.inditex_prices.controllers.exceptions.custom.CustomException;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

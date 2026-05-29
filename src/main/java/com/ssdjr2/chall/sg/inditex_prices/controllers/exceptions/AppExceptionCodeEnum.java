@@ -1,4 +1,4 @@
-package com.ssdjr2.chall.sg.inditex_prices.exceptions;
+package com.ssdjr2.chall.sg.inditex_prices.controllers.exceptions;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

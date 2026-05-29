@@ -1,6 +1,5 @@
 package com.ssdjr2.chall.sg.inditex_prices.domain.mappers;
 
-import com.ssdjr2.chall.sg.inditex_prices.controllers.dtos.response.MoneyResponseDTO;
 import com.ssdjr2.chall.sg.inditex_prices.domain.model.Money;
 import com.ssdjr2.chall.sg.inditex_prices.repositories.entities.PriceEntity;
 import org.mapstruct.Mapper;
@@ -24,9 +23,4 @@ public interface MoneyMapper {
 				.currency(entity.getCurrency())
 				.build();
 	}
-
-	/*
-	 * DOMAIN -> DTO
-	 */
-	MoneyResponseDTO fromMoneyToMoneyResponseDTO(Money money);
 }
