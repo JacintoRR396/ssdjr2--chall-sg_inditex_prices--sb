@@ -1,12 +1,12 @@
 package com.ssdjr2.chall.sg.inditex_prices.exceptions.handler;
 
+import com.ssdjr2.chall.sg.inditex_prices.config.properties.GlobalProperties;
 import com.ssdjr2.chall.sg.inditex_prices.controllers.dtos.error.RespEntityErrorDTO;
 import com.ssdjr2.chall.sg.inditex_prices.controllers.mappers.RespEntityErrorMapper;
 import com.ssdjr2.chall.sg.inditex_prices.exceptions.AppExceptionCodeEnum;
 import com.ssdjr2.chall.sg.inditex_prices.exceptions.custom.CustomException;
-import com.ssdjr2.chall.sg.inditex_prices.utils.UConstants;
 import com.ssdjr2.chall.sg.inditex_prices.utils.UDateTimeService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -33,12 +33,13 @@ import java.nio.file.AccessDeniedException;
 import java.util.Map;
 import java.util.Objects;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestControllerAdvice
 public class HandlerExceptionController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger( HandlerExceptionController.class );
 
+	private final GlobalProperties globalProperties;
 	private final UDateTimeService uDateTimeService;
 	private final RespEntityErrorMapper respEntityErrorMapper;
 
@@ -119,7 +120,8 @@ public class HandlerExceptionController {
 		CustomException customEx = Objects.nonNull( appExCode )
 				? new CustomException( ex, appExCode, validationErrors ) : ( CustomException ) ex;
 		RespEntityErrorDTO error = this.respEntityErrorMapper.toDTO( customEx, this.uDateTimeService.getTimestamp() );
-		LOGGER.error( UConstants.MSG_BASE_ERROR + "{} : {}", error.getErrorCode(), error.getExMessage());
+		
+		LOGGER.error( "{} {} : {}", this.globalProperties.getLogMsgBaseError(), error.getErrorCode(), error.getExMessage());
 
 		return new ResponseEntity<>( error, customEx.getAppExCode().getHttpStatusCode() );
 	}

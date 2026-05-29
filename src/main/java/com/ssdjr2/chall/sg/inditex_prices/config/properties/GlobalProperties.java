@@ -1,12 +1,14 @@
 package com.ssdjr2.chall.sg.inditex_prices.config.properties;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "config")
-@Data
+@Getter
+@Setter
 public class GlobalProperties {
 
 	// Generic
@@ -15,8 +17,11 @@ public class GlobalProperties {
 	// Logs
 	private String logMsgBaseOk;
 	private String logMsgBaseInfo;
+	private String logMsgBaseInfoReq;
+	private String logMsgBaseInfoReqBody;
+	private String logMsgBaseInfoRespBody;
+	private String logMsgBaseWarm;
 	private String logMsgBaseError;
-	private String logMsgBaseReq;
 
 	// Constants
 	private String formatDateTimeBackend;
