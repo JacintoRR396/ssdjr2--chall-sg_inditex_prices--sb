@@ -2,8 +2,7 @@ openapi: 3.1.0
 
 info:
   title: Challenge Sngular Inditex Prices API
-  description: |
-    Microservice to retrieve the applicable price for a   product and brand based on an application date.
+  description: Microservice for managing prices.
   contact:
     name: 'Jacinto Roldán Rodríguez'
     email: 'jacrolrod.ssd.21@gmail.com'
@@ -16,7 +15,7 @@ servers:
 
 tags:
   - name: Prices
-    description: Price search operations
+    description: Price operations
 
 paths:
   /prices/search:
@@ -26,9 +25,7 @@ paths:
       operationId: searchPrice
       summary: Search applicable price
       description: |
-        Returns the applicable price for a product, brand and application date.
-        NOTE:
-        This endpoint uses POST with request body, following the current backend implementation.
+        Returns the applicable price for a brand, a product and application date.
       requestBody:
         required: true
         content:
@@ -41,7 +38,7 @@ paths:
                 value:
                   brand_id: 1
                   product_id: 35455
-                  application_date: "2020-06-14T10:00:00Z"
+                  application_date: "2020-06-14T10:00:00"
 
       responses:
         '200':
@@ -57,8 +54,8 @@ paths:
                     product_id: 35455
                     price_list: 2
                     application_dates:
-                      start_date: "2020-06-14T00:00:00Z"
-                      end_date: "2020-12-31T23:59:59Z"
+                      start_date: "2020-06-14T00:00:00"
+                      end_date: "2020-12-31T23:59:59"
                     money:
                       price: 35.50
                       currency: "EUR"
@@ -73,12 +70,12 @@ paths:
                 validationError:
                   value:
                     id: "d290f1ee-6c54-4b01-90e6-d701748f0851"
-                    timestamp: "2026-05-29T10:15:30Z"
+                    timestamp: "2026-05-29T18:27:33.725+02:00"
                     http_status_code: 400
                     error_code: 40001
                     error_message: "Bad Request: Validation errors"
                     validation_errors:
-                      brand_id: "The field brand_id must be greater than 0"
+                      brand_id: "The field brandId is mandatory"
 
         '403':
           description: Forbidden
@@ -93,6 +90,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespEntityErrorDTO'
+              examples:
+                validationError:
+                  value:
+                    id: "08695c0c-b8ec-4a43-80fd-940dba827ec8"
+                    timestamp: "2026-05-29T18:27:33.725+02:00"
+                    http_status_code: 404
+                    error_code: 40400
+                    error_message: "Not Found"
 
         '405':
           description: Method not allowed
