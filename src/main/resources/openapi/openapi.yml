@@ -1,0 +1,262 @@
+openapi: 3.1.0
+
+info:
+  title: Challenge Sngular Inditex Prices API
+  description: |
+    Microservice to retrieve the applicable price for a   product and brand based on an application date.
+  contact:
+    name: 'Jacinto Roldán Rodríguez'
+    email: 'jacrolrod.ssd.21@gmail.com'
+    url: 'https://www.linkedin.com/in/jacintor2/'
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8081/rest/v1
+    description: Local environment
+
+tags:
+  - name: Prices
+    description: Price search operations
+
+paths:
+  /prices/search:
+    post:
+      tags:
+        - Prices
+      operationId: searchPrice
+      summary: Search applicable price
+      description: |
+        Returns the applicable price for a product, brand and application date.
+        NOTE:
+        This endpoint uses POST with request body, following the current backend implementation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriceSearchQueryDTO'
+            examples:
+              default:
+                summary: Valid request
+                value:
+                  brand_id: 1
+                  product_id: 35455
+                  application_date: "2020-06-14T10:00:00Z"
+
+      responses:
+        '200':
+          description: Applicable price found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceSearchResponseDTO'
+              examples:
+                success:
+                  value:
+                    brand_id: 1
+                    product_id: 35455
+                    price_list: 2
+                    application_dates:
+                      start_date: "2020-06-14T00:00:00Z"
+                      end_date: "2020-12-31T23:59:59Z"
+                    money:
+                      price: 35.50
+                      currency: "EUR"
+
+        '400':
+          description: Bad request or validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespEntityErrorDTO'
+              examples:
+                validationError:
+                  value:
+                    id: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+                    timestamp: "2026-05-29T10:15:30Z"
+                    http_status_code: 400
+                    error_code: 40001
+                    error_message: "Bad Request: Validation errors"
+                    validation_errors:
+                      brand_id: "The field brand_id must be greater than 0"
+
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespEntityErrorDTO'
+
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespEntityErrorDTO'
+
+        '405':
+          description: Method not allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespEntityErrorDTO'
+
+        '406':
+          description: Media type not acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespEntityErrorDTO'
+
+        '415':
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespEntityErrorDTO'
+
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespEntityErrorDTO'
+
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespEntityErrorDTO'
+
+components:
+  schemas:
+    PriceSearchQueryDTO:
+      type: object
+      required:
+        - brand_id
+        - product_id
+        - application_date
+      properties:
+        brand_id:
+          type: integer
+          format: int32
+          minimum: 1
+          description: Brand identifier
+          examples:
+            - 1
+        product_id:
+          type: integer
+          format: int32
+          minimum: 1
+          description: Product identifier
+          examples:
+            - 35455
+        application_date:
+          type: string
+          format: date-time
+          description: Date used to determine the applicable price
+          examples:
+            - '2020-06-14T10:00:00Z'
+
+    PriceSearchResponseDTO:
+      type: object
+      required:
+        - brand_id
+        - product_id
+        - price_list
+        - application_dates
+        - money
+      properties:
+        brand_id:
+          type: integer
+          format: int32
+          examples:
+            - 1
+        product_id:
+          type: integer
+          format: int32
+          examples:
+            - 35455
+        price_list:
+          type: integer
+          format: int32
+          description: Applied tariff identifier
+          examples:
+            - 2
+        application_dates:
+          $ref: '#/components/schemas/ApplicationDatesResponseDTO'
+        money:
+          $ref: '#/components/schemas/MoneyResponseDTO'
+
+    ApplicationDatesResponseDTO:
+      type: object
+      required:
+        - start_date
+        - end_date
+      properties:
+        start_date:
+          type: string
+          format: date-time
+          examples:
+            - "2020-06-14T00:00:00Z"
+        end_date:
+          type: string
+          format: date-time
+          examples:
+            - "2020-12-31T23:59:59Z"
+
+    MoneyResponseDTO:
+      type: object
+      required:
+        - price
+        - currency
+      properties:
+        price:
+          type: number
+          examples:
+            - 35.50
+        currency:
+          type: string
+          examples:
+            - EUR
+
+    RespEntityErrorDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          examples:
+            - "d290f1ee-6c54-4b01-90e6-d701748f0851"
+        timestamp:
+          type: string
+          format: date-time
+          examples:
+            - "2026-05-29T10:15:30Z"
+        http_status_code:
+          type: integer
+          examples:
+            - 400
+        error_code:
+          type: integer
+          examples:
+            - 40001
+        error_message:
+          type: string
+          examples:
+            - "Bad Request: Validation errors"
+        validation_errors:
+          anyOf:
+            - type: object
+              additionalProperties:
+                type: string
+            - type: "null"
+        ex_message:
+          type:
+            - string
+            - "null"
+        ex_track_trace:
+          type:
+            - string
+            - "null"

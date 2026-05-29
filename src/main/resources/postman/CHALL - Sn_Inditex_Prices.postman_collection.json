@@ -1,0 +1,650 @@
+{
+  "info": {
+    "_postman_id": "db5cb4c4-7f1a-43ff-a0c0-6d2fcbd8f91a",
+    "name": "CHALL - Sn_Inditex_Prices",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "14045862",
+    "_collection_link": "https://go.postman.co/collection/14045862-db5cb4c4-7f1a-43ff-a0c0-6d2fcbd8f91a?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Search",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"brand_id\": 1,\r\n    \"product_id\": 35455,\r\n    \"application_date\": \"2020-06-16T21:00:00\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/rest/v1/prices/search",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "rest",
+            "v1",
+            "prices",
+            "search"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Search :: 200 - 20200614-10:00:00",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"brand_id\": 1,\r\n    \"product_id\": 35455,\r\n    \"application_date\": \"2020-06-14T10:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rest/v1/prices/search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rest",
+                "v1",
+                "prices",
+                "search"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 16:12:43 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"brand_id\": 1,\n    \"product_id\": 35455,\n    \"price_list\": 1,\n    \"application_dates\": {\n        \"start_date\": \"2020-06-14T00:00:00\",\n        \"end_date\": \"2020-12-31T23:59:59\"\n    },\n    \"money\": {\n        \"price\": 35.5,\n        \"currency\": \"EUR\"\n    }\n}"
+        },
+        {
+          "name": "Search :: 200 - 20200614-16:00:00",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"brand_id\": 1,\r\n    \"product_id\": 35455,\r\n    \"application_date\": \"2020-06-14T16:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rest/v1/prices/search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rest",
+                "v1",
+                "prices",
+                "search"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 16:21:15 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"brand_id\": 1,\n    \"product_id\": 35455,\n    \"price_list\": 2,\n    \"application_dates\": {\n        \"start_date\": \"2020-06-14T15:00:00\",\n        \"end_date\": \"2020-06-14T18:30:00\"\n    },\n    \"money\": {\n        \"price\": 25.45,\n        \"currency\": \"EUR\"\n    }\n}"
+        },
+        {
+          "name": "Search :: 200 - 20200614-21:00:00",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"brand_id\": 1,\r\n    \"product_id\": 35455,\r\n    \"application_date\": \"2020-06-14T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rest/v1/prices/search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rest",
+                "v1",
+                "prices",
+                "search"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 16:22:16 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"brand_id\": 1,\n    \"product_id\": 35455,\n    \"price_list\": 1,\n    \"application_dates\": {\n        \"start_date\": \"2020-06-14T00:00:00\",\n        \"end_date\": \"2020-12-31T23:59:59\"\n    },\n    \"money\": {\n        \"price\": 35.5,\n        \"currency\": \"EUR\"\n    }\n}"
+        },
+        {
+          "name": "Search :: 200 - 20200615-10:00:00",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"brand_id\": 1,\r\n    \"product_id\": 35455,\r\n    \"application_date\": \"2020-06-15T10:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rest/v1/prices/search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rest",
+                "v1",
+                "prices",
+                "search"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 16:23:41 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"brand_id\": 1,\n    \"product_id\": 35455,\n    \"price_list\": 3,\n    \"application_dates\": {\n        \"start_date\": \"2020-06-15T00:00:00\",\n        \"end_date\": \"2020-06-15T11:00:00\"\n    },\n    \"money\": {\n        \"price\": 30.5,\n        \"currency\": \"EUR\"\n    }\n}"
+        },
+        {
+          "name": "Search :: 200 - 20200616-21:00:00",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"brand_id\": 1,\r\n    \"product_id\": 35455,\r\n    \"application_date\": \"2020-06-16T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rest/v1/prices/search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rest",
+                "v1",
+                "prices",
+                "search"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 16:24:32 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"brand_id\": 1,\n    \"product_id\": 35455,\n    \"price_list\": 4,\n    \"application_dates\": {\n        \"start_date\": \"2020-06-15T16:00:00\",\n        \"end_date\": \"2020-12-31T23:59:59\"\n    },\n    \"money\": {\n        \"price\": 38.95,\n        \"currency\": \"EUR\"\n    }\n}"
+        },
+        {
+          "name": "Search :: 400 - brandId null",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"product_id\": 35455,\r\n    \"application_date\": \"2020-06-16T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rest/v1/prices/search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rest",
+                "v1",
+                "prices",
+                "search"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 16:27:33 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"c0af4c5d-c5a8-4fa6-b978-d3b6ca6874cd\",\n    \"timestamp\": \"2026-05-29T18:27:33.725+02:00\",\n    \"http_status_code\": 400,\n    \"error_code\": 40001,\n    \"error_message\": \"Bad Request: Validation errors\",\n    \"validation_errors\": {\n        \"brandId\": \"The field brandId is mandatory\"\n    }\n}"
+        },
+        {
+          "name": "Search :: 400 - brandId not positive",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"brand_id\": 0,\r\n    \"product_id\": 35455,\r\n    \"application_date\": \"2020-06-16T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rest/v1/prices/search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rest",
+                "v1",
+                "prices",
+                "search"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 16:29:44 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"d3ffb7f6-3272-4ca0-b7f1-ba7310f021df\",\n    \"timestamp\": \"2026-05-29T18:29:44.326+02:00\",\n    \"http_status_code\": 400,\n    \"error_code\": 40001,\n    \"error_message\": \"Bad Request: Validation errors\",\n    \"validation_errors\": {\n        \"brandId\": \"The field brandId must be equal to or greater than 1\"\n    }\n}"
+        },
+        {
+          "name": "Search :: 400 - prodId null",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"brand_id\": 1,\r\n    \"application_date\": \"2020-06-16T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rest/v1/prices/search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rest",
+                "v1",
+                "prices",
+                "search"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 16:30:35 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"f4a20e89-60cd-4012-a0ab-40280431b6fe\",\n    \"timestamp\": \"2026-05-29T18:30:35.307+02:00\",\n    \"http_status_code\": 400,\n    \"error_code\": 40001,\n    \"error_message\": \"Bad Request: Validation errors\",\n    \"validation_errors\": {\n        \"productId\": \"The field productId is mandatory\"\n    }\n}"
+        },
+        {
+          "name": "Search :: 400 - prodId not positive",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"brand_id\": 1,\r\n    \"product_id\": 0,\r\n    \"application_date\": \"2020-06-16T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rest/v1/prices/search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rest",
+                "v1",
+                "prices",
+                "search"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 16:31:54 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"1e6143c6-ce7a-47e3-bbfb-059641a70ca5\",\n    \"timestamp\": \"2026-05-29T18:31:54.067+02:00\",\n    \"http_status_code\": 400,\n    \"error_code\": 40001,\n    \"error_message\": \"Bad Request: Validation errors\",\n    \"validation_errors\": {\n        \"productId\": \"The field productId must be equal to or greater than 1\"\n    }\n}"
+        },
+        {
+          "name": "Search :: 400 - date null",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"brand_id\": 1,\r\n    \"product_id\": 35455\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rest/v1/prices/search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rest",
+                "v1",
+                "prices",
+                "search"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 16:32:50 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"6e9e7acd-d357-4d31-8c84-ff4a97ad58b2\",\n    \"timestamp\": \"2026-05-29T18:32:50.386+02:00\",\n    \"http_status_code\": 400,\n    \"error_code\": 40001,\n    \"error_message\": \"Bad Request: Validation errors\",\n    \"validation_errors\": {\n        \"applicationDate\": \"The field applicationDate is mandatory\"\n    }\n}"
+        },
+        {
+          "name": "Search :: 404 - not found",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"brand_id\": 2,\r\n    \"product_id\": 35455,\r\n    \"application_date\": \"2020-06-16T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/rest/v1/prices/search",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "rest",
+                "v1",
+                "prices",
+                "search"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 17:40:23 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"08695c0c-b8ec-4a43-80fd-940dba827ec8\",\n    \"timestamp\": \"2026-05-29T19:40:23.867+02:00\",\n    \"http_status_code\": 404,\n    \"error_code\": 40400,\n    \"error_message\": \"Not Found\"\n}"
+        }
+      ]
+    }
+  ]
+}

@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.boot.context.properties.bind.BindException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
@@ -123,15 +122,15 @@ public class HandlerExceptionController {
 				? new CustomException( ex, appExCode, validationErrors ) : ( CustomException ) ex;
 		RespEntityErrorDTO error = this.respEntityErrorMapper.toDTO( customEx, this.uDateTimeService.getTimestamp() );
 
-		this.createLogger( appExCode.getHttpStatusCode(), error.getErrorCode(), error.getExMessage() );
+		this.createLogger( appExCode, error.getErrorCode(), error.getExMessage() );
 
 		return new ResponseEntity<>( error, customEx.getAppExCode().getHttpStatusCode() );
 	}
 
-	private void createLogger( HttpStatus status, int errorCode, String msgEx ) {
-		if (status.is5xxServerError()) {
+	private void createLogger( AppExceptionCodeEnum appExCode, int errorCode, String msgEx ) {
+		if ( Objects.nonNull(appExCode) && appExCode.getHttpStatusCode().is5xxServerError() ) {
 			LOGGER.error( LOGGER_MSG_FORMATTER, this.globalProperties.getLogMsgBaseError(), errorCode, msgEx );
-		} else if (status.is4xxClientError()) {
+		} else if ( Objects.nonNull(appExCode) && appExCode.getHttpStatusCode().is4xxClientError() ) {
 			LOGGER.warn( LOGGER_MSG_FORMATTER, this.globalProperties.getLogMsgBaseWarm(), errorCode, msgEx );
 		} else {
 			LOGGER.info( LOGGER_MSG_FORMATTER, this.globalProperties.getLogMsgBaseInfo(), errorCode, msgEx );

@@ -1,20 +1,20 @@
 package com.ssdjr2.chall.sg.inditex_prices.controllers.dtos.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
 
 public record PriceSearchQueryDTO(
 		@JsonProperty("brand_id")
 		@NotNull(message = "{validation.price.brandId.notNull}")
-		@Min(value = 1, message = "{validation.price.brandId.min}")
+		@Positive(message = "{validation.price.brandId.min}")
 		Integer brandId,
 
 		@JsonProperty("product_id")
 		@NotNull(message = "{validation.price.productId.notNull}")
-		@Min(value = 1, message = "{validation.price.productId.min}")
+		@Positive(message = "{validation.price.productId.min}")
 		Integer productId,
 
 		@JsonProperty("application_date")
