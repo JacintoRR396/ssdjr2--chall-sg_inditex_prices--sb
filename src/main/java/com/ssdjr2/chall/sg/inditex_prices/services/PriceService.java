@@ -1,7 +1,7 @@
 package com.ssdjr2.chall.sg.inditex_prices.services;
 
-import com.ssdjr2.chall.sg.inditex_prices.domain.dtos.PriceSearchQueryDTO;
-import com.ssdjr2.chall.sg.inditex_prices.domain.dtos.PriceSearchResponseDTO;
+import com.ssdjr2.chall.sg.inditex_prices.controllers.dtos.request.PriceSearchQueryDTO;
+import com.ssdjr2.chall.sg.inditex_prices.controllers.dtos.response.PriceSearchResponseDTO;
 
 public interface PriceService {
 	PriceSearchResponseDTO search(PriceSearchQueryDTO body);

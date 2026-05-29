@@ -1,6 +1,6 @@
 package com.ssdjr2.chall.sg.inditex_prices.domain.mappers;
 
-import com.ssdjr2.chall.sg.inditex_prices.domain.dtos.ApplicationDatesResponseDTO;
+import com.ssdjr2.chall.sg.inditex_prices.controllers.dtos.response.ApplicationDatesResponseDTO;
 import com.ssdjr2.chall.sg.inditex_prices.domain.model.ApplicationDates;
 import com.ssdjr2.chall.sg.inditex_prices.repositories.entities.PriceEntity;
 import org.mapstruct.Mapper;
