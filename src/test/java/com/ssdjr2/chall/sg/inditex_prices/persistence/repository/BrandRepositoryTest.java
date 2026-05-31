@@ -20,19 +20,19 @@ class BrandRepositoryTest {
 	@Test
 	@DisplayName("Given existing brand id when findById then return brand")
 	void givenExistingBrandId_whenFindById_thenReturnBrand() {
-		Long brandId = 1L;
+		Long brandId = FactoryBrand.ZARA_ID;
 
 		Optional<BrandEntity> result = this.brandRepository.findById(brandId);
 
 		assertTrue(result.isPresent());
-		assertEquals(1L, result.get().getId());
-		assertEquals(FactoryBrand.ZARA, result.get().getName());
+		assertEquals(FactoryBrand.ZARA_ID, result.get().getId());
+		assertEquals(FactoryBrand.ZARA_NAME, result.get().getName());
 	}
 
 	@Test
 	@DisplayName("Given non existing brand id when findById then return empty optional")
 	void givenNonExistingBrandId_whenFindById_thenReturnEmptyOptional() {
-		Long brandId = 999L;
+		Long brandId = FactoryBrand.INVALID_ID;
 
 		Optional<BrandEntity> result = this.brandRepository.findById(brandId);
 
@@ -42,7 +42,7 @@ class BrandRepositoryTest {
 	@Test
 	@DisplayName("Given initialized database when count then return loaded brands")
 	void givenInitializedDatabase_whenCount_thenReturnLoadedBrands() {
-		long expectedBrands = 1L;
+		long expectedBrands = FactoryBrand.ZARA_ID;
 
 		long result = this.brandRepository.count();
 

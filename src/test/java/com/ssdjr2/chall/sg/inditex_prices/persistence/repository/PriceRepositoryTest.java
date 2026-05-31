@@ -1,5 +1,8 @@
 package com.ssdjr2.chall.sg.inditex_prices.persistence.repository;
 
+import com.ssdjr2.chall.sg.inditex_prices.factory.FactoryBrand;
+import com.ssdjr2.chall.sg.inditex_prices.factory.FactoryDate;
+import com.ssdjr2.chall.sg.inditex_prices.factory.FactoryPrice;
 import com.ssdjr2.chall.sg.inditex_prices.persistence.entity.PriceEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +24,10 @@ class PriceRepositoryTest {
 	@Test
 	@DisplayName("Given 2020-06-14 10:00 when search then return tariff 1")
 	void givenDate202006141000_whenSearch_thenReturnTariff1() {
-		LocalDateTime applicationDate = LocalDateTime.of(2020, 6, 14, 10, 0);
+		LocalDateTime applicationDate = FactoryDate.test1();
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( 1L, 35455, applicationDate );
+				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate(FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate );
 
 		assertThat(result).isPresent();
 
@@ -37,10 +40,10 @@ class PriceRepositoryTest {
 	@Test
 	@DisplayName("Given 2020-06-14 16:00 when search then return tariff 2")
 	void givenDate202006141600_whenSearch_thenReturnTariff2() {
-		LocalDateTime applicationDate =	LocalDateTime.of(2020, 6, 14, 16, 0);
+		LocalDateTime applicationDate =	FactoryDate.test2();
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( 1L, 35455, applicationDate );
+				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate );
 
 		assertThat(result).isPresent();
 
@@ -53,10 +56,10 @@ class PriceRepositoryTest {
 	@Test
 	@DisplayName("Given 2020-06-14 21:00 when search then return tariff 1")
 	void givenDate202006142100_whenSearch_thenReturnTariff1() {
-		LocalDateTime applicationDate =	LocalDateTime.of(2020, 6, 14, 21, 0);
+		LocalDateTime applicationDate =	FactoryDate.test3();
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( 1L, 35455, applicationDate );
+				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate );
 
 		assertThat(result).isPresent();
 		assertThat(result.get().getPriceList()).isEqualTo(1);
@@ -66,10 +69,10 @@ class PriceRepositoryTest {
 	@Test
 	@DisplayName("Given 2020-06-15 10:00 when search then return tariff 3")
 	void givenDate202006151000_whenSearch_thenReturnTariff3() {
-		LocalDateTime applicationDate =	LocalDateTime.of(2020, 6, 15, 10, 0);
+		LocalDateTime applicationDate =	FactoryDate.test4();
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( 1L, 35455, applicationDate );
+				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate );
 
 		assertThat(result).isPresent();
 
@@ -82,10 +85,10 @@ class PriceRepositoryTest {
 	@Test
 	@DisplayName("Given 2020-06-16 21:00 when search then return tariff 4")
 	void givenDate202006162100_whenSearch_thenReturnTariff4() {
-		LocalDateTime applicationDate =	LocalDateTime.of(2020, 6, 16, 21, 0);
+		LocalDateTime applicationDate =	FactoryDate.test5();
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( 1L, 35455,	applicationDate	);
+				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID,	applicationDate	);
 
 		assertThat(result).isPresent();
 
@@ -101,7 +104,7 @@ class PriceRepositoryTest {
 		LocalDateTime applicationDate = LocalDateTime.of(2020, 6, 14, 10, 0);
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( 999L, 35455, applicationDate );
+				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.INVALID_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate );
 
 		assertThat(result).isEmpty();
 	}
@@ -112,7 +115,7 @@ class PriceRepositoryTest {
 		LocalDateTime applicationDate =	LocalDateTime.of(2020, 6, 14, 10, 0);
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( 1L, 99999,	applicationDate	);
+				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_INVALID,	applicationDate	);
 
 		assertThat(result).isEmpty();
 	}

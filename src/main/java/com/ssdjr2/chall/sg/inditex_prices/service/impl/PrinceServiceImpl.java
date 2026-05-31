@@ -5,7 +5,6 @@ import com.ssdjr2.chall.sg.inditex_prices.controller.dto.response.PriceSearchRes
 import com.ssdjr2.chall.sg.inditex_prices.controller.mapper.PriceDtoMapper;
 import com.ssdjr2.chall.sg.inditex_prices.domain.exception.BrandNotFoundException;
 import com.ssdjr2.chall.sg.inditex_prices.domain.exception.PriceNotFoundException;
-import com.ssdjr2.chall.sg.inditex_prices.domain.model.Brand;
 import com.ssdjr2.chall.sg.inditex_prices.persistence.mapper.PriceEntityMapper;
 import com.ssdjr2.chall.sg.inditex_prices.domain.model.Price;
 import com.ssdjr2.chall.sg.inditex_prices.persistence.repository.BrandRepository;
