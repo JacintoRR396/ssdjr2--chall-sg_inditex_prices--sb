@@ -299,7 +299,6 @@ docker build -t sg-inditex_prices--sb .
 docker run -p 8081:8081 sg-inditex_prices--sb
 ```
 
-
 ---
 
 ## 🧪 Testing
@@ -315,6 +314,35 @@ El proyecto utiliza:
 * JUnit 5
 * Mockito
 * Spring Boot Test
+
+---
+
+## 🧪 Pruebas con Postman
+
+En la carpeta `/resource/postman`, se incluye una colección de Postman para facilitar las pruebas de integración del endpoint y verificar los casos de uso solicitados en la prueba técnica.
+
+### Ficheros incluidos:
+* `CHALL - Sn_Inditex_Prices.postman_collection.json` (Colección con las peticiones y scripts de validación).
+
+### Casos de prueba automatizados en la colección:
+La colección incluye scripts de pruebas (`Tests` en Postman) que validan automáticamente el código de estado HTTP, la estructura del JSON y los datos esperados para diversos escenarios requeridos:
+1.  **Test 01:** Petición a las 10:00 del día 14 para el producto 35455 y marca 1 (ZARA).
+2.  **Test 02:** Petición a las 16:00 del día 14 para el producto 35455 y marca 1 (ZARA).
+3.  **Test 03:** Petición a las 21:00 del día 14 para el producto 35455 y marca 1 (ZARA).
+4.  **Test 04:** Petición a las 10:00 del día 15 para el producto 35455 y marca 1 (ZARA).
+5.  **Test 05:** Petición a las 21:00 del día 16 para el producto 35455 y marca 1 (ZARA).
+6.  **Test 06:** Petición con un brand_id como null.
+7.  **Test 07:** Petición con un brand_id menor que 1.
+8.  **Test 08:** Petición con un product_id como null.
+9.  **Test 09:** Petición con un product_id menor que 1.
+10. **Test 10:** Petición con un date como null.
+11. **Test 11:** Petición con un brand que no existe.
+12. **Test 12:** Petición con un product que no existe.
+
+### Cómo ejecutar las pruebas en Postman:
+1.  Abre Postman e importa el fichero (`Import` -> selecciona los archivos `.json`).
+2. Asegúrate de que la aplicación Spring Boot esté corriendo localmente en el puerto `8081`.
+3. Ejecutar las peticiones una a una.
 
 ---
 
@@ -396,6 +424,14 @@ POST /prices/search
   }
 }
 ```
+
+---
+
+## 📖 Documentación de la API (OpenAPI / Swagger)
+
+La aplicación expone la especificación de la API utilizando **OpenAPI 3** a través de un fichero `openapi.yml` ubicado en `/resource/openapi`.
+
+Desde la interfaz de Swagger UI es posible probar directamente el endpoint de búsqueda de precios sin necesidad de herramientas externas.
 
 ---
 
