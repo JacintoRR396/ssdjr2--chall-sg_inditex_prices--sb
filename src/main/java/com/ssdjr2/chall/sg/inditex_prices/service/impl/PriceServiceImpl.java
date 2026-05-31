@@ -32,8 +32,10 @@ public class PriceServiceImpl implements PriceService {
 		this.checkBrandExists( body.brandId() );
 
 		Price priceSearch = this.priceDtoMapper.fromPriceQueryDTOToPrice(body);
-		Optional<PriceEntity> priceEntityOpt = this.priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate(
-				priceSearch.getBrand().getId(), priceSearch.getProductId(), priceSearch.getApplicationDates().getStartDate());
+		Optional<PriceEntity> priceEntityOpt =
+				this.priceRepository.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+				priceSearch.getBrand().getId(), priceSearch.getProductId(),
+						priceSearch.getApplicationDates().getStartDate(), priceSearch.getApplicationDates().getEndDate());
 
 		if(priceEntityOpt.isPresent()) {
 			PriceEntity priceEntity = priceEntityOpt.get();

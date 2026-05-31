@@ -27,7 +27,8 @@ class PriceRepositoryTest {
 		LocalDateTime applicationDate = FactoryDate.test1();
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate(FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate );
+				priceRepository.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate, applicationDate );
 
 		assertThat(result).isPresent();
 
@@ -43,7 +44,8 @@ class PriceRepositoryTest {
 		LocalDateTime applicationDate =	FactoryDate.test2();
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate );
+				priceRepository.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate, applicationDate );
 
 		assertThat(result).isPresent();
 
@@ -59,7 +61,8 @@ class PriceRepositoryTest {
 		LocalDateTime applicationDate =	FactoryDate.test3();
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate );
+				priceRepository.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate, applicationDate );
 
 		assertThat(result).isPresent();
 		assertThat(result.get().getPriceList()).isEqualTo(1);
@@ -72,7 +75,8 @@ class PriceRepositoryTest {
 		LocalDateTime applicationDate =	FactoryDate.test4();
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate );
+				priceRepository.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate, applicationDate );
 
 		assertThat(result).isPresent();
 
@@ -88,7 +92,8 @@ class PriceRepositoryTest {
 		LocalDateTime applicationDate =	FactoryDate.test5();
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID,	applicationDate	);
+				priceRepository.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate, applicationDate	);
 
 		assertThat(result).isPresent();
 
@@ -104,7 +109,8 @@ class PriceRepositoryTest {
 		LocalDateTime applicationDate = LocalDateTime.of(2020, 6, 14, 10, 0);
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.INVALID_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate );
+				priceRepository.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						FactoryBrand.INVALID_ID, FactoryPrice.PRODUCT_ID_VALID, applicationDate, applicationDate );
 
 		assertThat(result).isEmpty();
 	}
@@ -115,7 +121,8 @@ class PriceRepositoryTest {
 		LocalDateTime applicationDate =	LocalDateTime.of(2020, 6, 14, 10, 0);
 
 		Optional<PriceEntity> result =
-				priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate( FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_INVALID,	applicationDate	);
+				priceRepository.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_INVALID,	applicationDate, applicationDate	);
 
 		assertThat(result).isEmpty();
 	}

@@ -66,7 +66,8 @@ class PriceServiceImplTest {
 		when(priceDtoMapper.fromPriceQueryDTOToPrice(queryDTO))
 				.thenReturn(priceSearch);
 		when(priceRepository
-				.findPriceByBrandIdAndProductIdAndApplicationDate(FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID,	dates.getStartDate()))
+				.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID,	dates.getStartDate(), dates.getEndDate() ) )
 				.thenReturn(Optional.of(priceEntity));
 		when(priceEntityMapper.fromPriceEntityToPrice(priceEntity))
 				.thenReturn(priceFound);
@@ -81,10 +82,8 @@ class PriceServiceImplTest {
 		verify(brandRepository)
 				.findById(1L);
 		verify(priceRepository)
-				.findPriceByBrandIdAndProductIdAndApplicationDate(
-						FactoryBrand.ZARA_ID,
-						FactoryPrice.PRODUCT_ID_VALID,
-						dates.getStartDate());
+				.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						FactoryBrand.ZARA_ID,	FactoryPrice.PRODUCT_ID_VALID, dates.getStartDate(), dates.getEndDate() );
 	}
 
 	@Test
@@ -99,7 +98,8 @@ class PriceServiceImplTest {
 				.isInstanceOf(BrandNotFoundException.class);
 
 		verify(priceRepository, never())
-				.findPriceByBrandIdAndProductIdAndApplicationDate( anyLong(),	anyInt(),	any());
+				.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						anyLong(),	anyInt(),	any(), any() );
 	}
 
 	@Test
@@ -119,10 +119,8 @@ class PriceServiceImplTest {
 		when(priceDtoMapper.fromPriceQueryDTOToPrice(queryDTO))
 				.thenReturn(priceSearch);
 		when(priceRepository
-				.findPriceByBrandIdAndProductIdAndApplicationDate(
-						FactoryBrand.ZARA_ID,
-						FactoryPrice.PRODUCT_ID_VALID,
-						dates.getStartDate()))
+				.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
+						FactoryBrand.ZARA_ID,	FactoryPrice.PRODUCT_ID_VALID, dates.getStartDate(), dates.getEndDate() ) )
 				.thenReturn(Optional.empty());
 
 		assertThatThrownBy(() -> service.search(queryDTO))
