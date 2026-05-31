@@ -3,6 +3,7 @@ package com.ssdjr2.chall.sg.inditex_prices.exception.handler;
 import com.ssdjr2.chall.sg.inditex_prices.config.properties.GlobalProperties;
 import com.ssdjr2.chall.sg.inditex_prices.controller.dto.error.RespEntityErrorDTO;
 import com.ssdjr2.chall.sg.inditex_prices.controller.mapper.RespEntityErrorMapper;
+import com.ssdjr2.chall.sg.inditex_prices.domain.exception.BrandNotFoundException;
 import com.ssdjr2.chall.sg.inditex_prices.domain.exception.PriceNotFoundException;
 import com.ssdjr2.chall.sg.inditex_prices.exception.AppExceptionCodeEnum;
 import com.ssdjr2.chall.sg.inditex_prices.exception.custom.CustomException;
@@ -79,9 +80,14 @@ public class GlobalExceptionHandler {
 		return this.createRespEntityError( ex, AppExceptionCodeEnum.STATUS_40400, null );
 	}
 
+	@ExceptionHandler(BrandNotFoundException.class)
+	public ResponseEntity<RespEntityErrorDTO> handleBrandNotFound( BrandNotFoundException ex ) {
+		return createRespEntityError( ex, AppExceptionCodeEnum.STATUS_40401,null);
+	}
+
 	@ExceptionHandler(PriceNotFoundException.class)
 	public ResponseEntity<RespEntityErrorDTO> handlePriceNotFound( PriceNotFoundException ex ) {
-		return createRespEntityError( ex, AppExceptionCodeEnum.STATUS_40401,null);
+		return createRespEntityError( ex, AppExceptionCodeEnum.STATUS_40402,null);
 	}
 
 	@ExceptionHandler({

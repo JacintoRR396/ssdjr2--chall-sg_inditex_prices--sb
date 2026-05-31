@@ -10,7 +10,7 @@ public record PriceSearchQueryDTO(
 		@JsonProperty("brand_id")
 		@NotNull(message = "{validation.price.brandId.notNull}")
 		@Positive(message = "{validation.price.brandId.min}")
-		Integer brandId,
+		Long brandId,
 
 		@JsonProperty("product_id")
 		@NotNull(message = "{validation.price.productId.notNull}")

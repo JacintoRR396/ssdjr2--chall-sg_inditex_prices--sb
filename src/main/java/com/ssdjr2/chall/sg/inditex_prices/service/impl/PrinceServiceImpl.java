@@ -3,11 +3,12 @@ package com.ssdjr2.chall.sg.inditex_prices.service.impl;
 import com.ssdjr2.chall.sg.inditex_prices.controller.dto.request.PriceSearchQueryDTO;
 import com.ssdjr2.chall.sg.inditex_prices.controller.dto.response.PriceSearchResponseDTO;
 import com.ssdjr2.chall.sg.inditex_prices.controller.mapper.PriceDtoMapper;
+import com.ssdjr2.chall.sg.inditex_prices.domain.exception.BrandNotFoundException;
 import com.ssdjr2.chall.sg.inditex_prices.domain.exception.PriceNotFoundException;
+import com.ssdjr2.chall.sg.inditex_prices.domain.model.Brand;
 import com.ssdjr2.chall.sg.inditex_prices.persistence.mapper.PriceEntityMapper;
 import com.ssdjr2.chall.sg.inditex_prices.domain.model.Price;
-import com.ssdjr2.chall.sg.inditex_prices.exception.AppExceptionCodeEnum;
-import com.ssdjr2.chall.sg.inditex_prices.exception.custom.CustomException;
+import com.ssdjr2.chall.sg.inditex_prices.persistence.repository.BrandRepository;
 import com.ssdjr2.chall.sg.inditex_prices.persistence.repository.PriceRepository;
 import com.ssdjr2.chall.sg.inditex_prices.persistence.entity.PriceEntity;
 import com.ssdjr2.chall.sg.inditex_prices.service.PriceService;
@@ -24,10 +25,13 @@ public class PrinceServiceImpl implements PriceService {
 	private final PriceDtoMapper priceDtoMapper;
 	private final PriceEntityMapper priceEntityMapper;
 	private final PriceRepository priceRepository;
+	private final BrandRepository brandRepository;
 
 	@Override
 	@Transactional(readOnly = true)
 	public PriceSearchResponseDTO search(PriceSearchQueryDTO body) {
+		this.checkBrandExists( body.brandId() );
+
 		Price priceSearch = this.priceDtoMapper.fromPriceQueryDTOToPrice(body);
 		Optional<PriceEntity> priceEntityOpt = this.priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate(
 				priceSearch.getBrand().getId(), priceSearch.getProductId(), priceSearch.getApplicationDates().getStartDate());
@@ -39,5 +43,10 @@ public class PrinceServiceImpl implements PriceService {
 		}
 
 		throw new PriceNotFoundException( priceSearch.getBrand().getId(), priceSearch.getProductId() );
+	}
+
+	private void checkBrandExists( Long brandId ) {
+		this.brandRepository.findById( brandId )
+				.orElseThrow( ()-> new BrandNotFoundException( brandId ) );
 	}
 }
