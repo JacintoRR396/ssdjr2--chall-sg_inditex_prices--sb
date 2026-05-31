@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record PriceSearchResponseDTO(
 		@JsonProperty("brand_id")
-		Integer brandId,
+		Long brandId,
 
 		@JsonProperty("product_id")
 		Integer productId,

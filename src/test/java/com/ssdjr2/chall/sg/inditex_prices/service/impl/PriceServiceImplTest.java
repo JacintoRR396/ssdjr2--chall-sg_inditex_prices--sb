@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class PrinceServiceImplTest {
+class PriceServiceImplTest {
 
 	@Mock
 	private PriceDtoMapper priceDtoMapper;
@@ -45,7 +45,7 @@ class PrinceServiceImplTest {
 	private BrandRepository brandRepository;
 
 	@InjectMocks
-	private PrinceServiceImpl service;
+	private PriceServiceImpl service;
 
 	@Test
 	@DisplayName("Given existing brand and matching price when search then return response")

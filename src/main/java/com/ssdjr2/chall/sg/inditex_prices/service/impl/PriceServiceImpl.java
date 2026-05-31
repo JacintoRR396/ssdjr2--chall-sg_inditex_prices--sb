@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class PrinceServiceImpl implements PriceService {
+public class PriceServiceImpl implements PriceService {
 
 	private final PriceDtoMapper priceDtoMapper;
 	private final PriceEntityMapper priceEntityMapper;
