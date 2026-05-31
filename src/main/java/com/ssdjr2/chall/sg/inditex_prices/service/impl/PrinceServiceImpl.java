@@ -39,6 +39,7 @@ public class PrinceServiceImpl implements PriceService {
 		if(priceEntityOpt.isPresent()) {
 			PriceEntity priceEntity = priceEntityOpt.get();
 			Price priceFound = this.priceEntityMapper.fromPriceEntityToPrice(priceEntity);
+
 			return this.priceDtoMapper.fromPriceToPriceSearchResponseDTO(priceFound);
 		}
 
