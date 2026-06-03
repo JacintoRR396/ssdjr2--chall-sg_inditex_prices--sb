@@ -13,13 +13,16 @@ public interface MoneyEntityMapper {
 	 * ENTITY -> DOMAIN
 	 */
 	default Money fromPriceEntityToMoney(PriceEntity entity) {
+		if (Objects.isNull(entity)) {
+			return null;
+		}
 
 		if ( Objects.isNull(entity.getPrice()) && Objects.isNull(entity.getCurrency()) ) {
 			return null;
 		}
 
 		return Money.builder()
-				.price(entity.getPrice())
+				.price(Money.setScaleToPrice(entity.getPrice()))
 				.currency(entity.getCurrency())
 				.build();
 	}

@@ -27,9 +27,8 @@ public class PriceEntity extends AuditableEntity implements Serializable {
 	@Column(name = "PRICE_ID", unique = true, nullable = false, updatable = false)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "BRAND_ID", nullable = false)
-	private BrandEntity brand;
+	@Column(name = "BRAND_ID", nullable = false)
+	private Long brandId;
 
 	@Column(name = "PRODUCT_ID", nullable = false)
 	private Integer productId;

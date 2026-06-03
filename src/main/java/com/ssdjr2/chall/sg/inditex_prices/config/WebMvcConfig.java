@@ -6,14 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
 @RequiredArgsConstructor
+@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
 	private final LoggerInterceptor loggingInterceptor;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(loggingInterceptor);
+		registry.addInterceptor(loggingInterceptor)
+				.addPathPatterns("/prices/**");
 	}
 }

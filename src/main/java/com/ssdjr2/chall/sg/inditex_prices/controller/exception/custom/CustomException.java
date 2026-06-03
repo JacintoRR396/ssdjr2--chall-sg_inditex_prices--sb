@@ -1,6 +1,6 @@
-package com.ssdjr2.chall.sg.inditex_prices.exception.custom;
+package com.ssdjr2.chall.sg.inditex_prices.controller.exception.custom;
 
-import com.ssdjr2.chall.sg.inditex_prices.exception.AppExceptionCodeEnum;
+import com.ssdjr2.chall.sg.inditex_prices.controller.exception.AppExceptionCodeEnum;
 import lombok.Getter;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,13 +26,5 @@ public class CustomException extends ResponseStatusException {
 		this.appExCode = appExCode;
 		this.originalException = originalException;
 		this.validationErrors = validationErrors;
-	}
-
-	public CustomException(Throwable originalException, AppExceptionCodeEnum appExCode ) {
-		this( originalException, appExCode, null );
-	}
-
-	public CustomException(AppExceptionCodeEnum appExCode ) {
-		this( null, appExCode );
 	}
 }

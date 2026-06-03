@@ -1,13 +1,10 @@
-package com.ssdjr2.chall.sg.inditex_prices.exception.handler;
+package com.ssdjr2.chall.sg.inditex_prices.controller.exception.handler;
 
-import com.ssdjr2.chall.sg.inditex_prices.config.properties.GlobalProperties;
 import com.ssdjr2.chall.sg.inditex_prices.controller.dto.error.RespEntityErrorDTO;
+import com.ssdjr2.chall.sg.inditex_prices.controller.exception.AppExceptionCodeEnum;
+import com.ssdjr2.chall.sg.inditex_prices.controller.exception.custom.CustomException;
 import com.ssdjr2.chall.sg.inditex_prices.controller.mapper.RespEntityErrorMapper;
-import com.ssdjr2.chall.sg.inditex_prices.domain.exception.BrandNotFoundException;
 import com.ssdjr2.chall.sg.inditex_prices.domain.exception.PriceNotFoundException;
-import com.ssdjr2.chall.sg.inditex_prices.exception.AppExceptionCodeEnum;
-import com.ssdjr2.chall.sg.inditex_prices.exception.custom.CustomException;
-import com.ssdjr2.chall.sg.inditex_prices.util.UDateTimeService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +29,9 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.nio.file.AccessDeniedException;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -41,16 +41,18 @@ public class GlobalExceptionHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger( GlobalExceptionHandler.class );
 	private static final String LOGGER_MSG_FORMATTER = "{} {} : {}";
+	private static final String LOGGER_MSG_INFO = "[INFO] »";
+	private static final String LOGGER_MSG_WARM = "[WARM] »";
+	private static final String LOGGER_MSG_ERROR = "[ERROR] »";
+	private static final String LOGGER_MSG_DATE_FORMATTER = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 
-	private final GlobalProperties globalProperties;
-	private final UDateTimeService uDateTimeService;
 	private final RespEntityErrorMapper respEntityErrorMapper;
 
 	@ExceptionHandler({
 			CustomException.class
 	})
-	public ResponseEntity<RespEntityErrorDTO> handleExCustom ( CustomException ex ) {
-		return this.createRespEntityError( ex, null, null );
+	public ResponseEntity<RespEntityErrorDTO> handleExCustom (CustomException ex ) {
+		return this.createRespEntityError( ex, ex.getAppExCode(), ex.getValidationErrors() );
 	}
 
 	@ExceptionHandler({
@@ -59,12 +61,24 @@ public class GlobalExceptionHandler {
 			ServletRequestBindingException.class,
 			TypeMismatchException.class,
 			HttpMessageNotReadableException.class,
-			MethodArgumentNotValidException.class,
+			// MethodArgumentNotValidException.class,
 			// HandlerMethodValidationException
 			BindException.class
 	})
 	public ResponseEntity<RespEntityErrorDTO> handleEx400 (Exception ex ) {
 		return this.createRespEntityError( ex, AppExceptionCodeEnum.STATUS_40000, null );
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<RespEntityErrorDTO> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+		Map<String, String> validationErrors = new HashMap<>();
+
+		ex.getBindingResult().getFieldErrors().forEach(error -> {
+			validationErrors.put( error.getField(), "The field " + error.getField() + " " + error.getDefaultMessage()
+			);
+		});
+
+		return this.createRespEntityError( ex, AppExceptionCodeEnum.STATUS_40001, validationErrors );
 	}
 
 	@ExceptionHandler({AccessDeniedException.class})
@@ -80,14 +94,9 @@ public class GlobalExceptionHandler {
 		return this.createRespEntityError( ex, AppExceptionCodeEnum.STATUS_40400, null );
 	}
 
-	@ExceptionHandler(BrandNotFoundException.class)
-	public ResponseEntity<RespEntityErrorDTO> handleBrandNotFound( BrandNotFoundException ex ) {
-		return createRespEntityError( ex, AppExceptionCodeEnum.STATUS_40401,null);
-	}
-
 	@ExceptionHandler(PriceNotFoundException.class)
 	public ResponseEntity<RespEntityErrorDTO> handlePriceNotFound( PriceNotFoundException ex ) {
-		return createRespEntityError( ex, AppExceptionCodeEnum.STATUS_40402,null);
+		return createRespEntityError( ex, AppExceptionCodeEnum.STATUS_40401,null);
 	}
 
 	@ExceptionHandler({
@@ -132,20 +141,27 @@ public class GlobalExceptionHandler {
 																																		 Map<String, String> validationErrors ) {
 		CustomException customEx = Objects.nonNull( appExCode )
 				? new CustomException( ex, appExCode, validationErrors ) : ( CustomException ) ex;
-		RespEntityErrorDTO error = this.respEntityErrorMapper.toDTO( customEx, this.uDateTimeService.getTimestamp() );
+		RespEntityErrorDTO error = this.respEntityErrorMapper.toDTO( customEx, this.getTimestamp() );
 
-		this.createLogger( appExCode, error.getErrorCode(), error.getExMessage() );
+		this.createLogger( appExCode );
 
 		return new ResponseEntity<>( error, customEx.getAppExCode().getHttpStatusCode() );
 	}
 
-	private void createLogger( AppExceptionCodeEnum appExCode, int errorCode, String msgEx ) {
+	private String getTimestamp () {
+		OffsetDateTime currentTime = OffsetDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern( LOGGER_MSG_DATE_FORMATTER );
+
+		return currentTime.format( formatter );
+	}
+
+	private void createLogger( AppExceptionCodeEnum appExCode ) {
 		if ( Objects.nonNull(appExCode) && appExCode.getHttpStatusCode().is5xxServerError() ) {
-			LOGGER.error( LOGGER_MSG_FORMATTER, this.globalProperties.getLogMsgBaseError(), errorCode, msgEx );
+			LOGGER.error( LOGGER_MSG_FORMATTER, LOGGER_MSG_ERROR, appExCode.getAppStatusCode(), appExCode.getMessage() );
 		} else if ( Objects.nonNull(appExCode) && appExCode.getHttpStatusCode().is4xxClientError() ) {
-			LOGGER.warn( LOGGER_MSG_FORMATTER, this.globalProperties.getLogMsgBaseWarm(), errorCode, msgEx );
-		} else {
-			LOGGER.info( LOGGER_MSG_FORMATTER, this.globalProperties.getLogMsgBaseInfo(), errorCode, msgEx );
+			LOGGER.warn( LOGGER_MSG_FORMATTER, LOGGER_MSG_WARM, appExCode.getAppStatusCode(), appExCode.getMessage() );
+		} else if ( Objects.nonNull(appExCode) ) {
+			LOGGER.info( LOGGER_MSG_FORMATTER, LOGGER_MSG_INFO, appExCode.getAppStatusCode(), appExCode.getMessage() );
 		}
 	}
 }

@@ -40,6 +40,7 @@ El proyecto ha sido desarrollado utilizando **Java 21**, **Spring Framework 6** 
 * JUnit 5
 * Mockito 5
 * Spring Boot Test
+* Cucumber & Gherkin
 
 ### Observabilidad
 
@@ -89,7 +90,6 @@ Ejemplo:
 
 ```java
 Price
-Brand
 Money
 ApplicationDates
 ```
@@ -103,7 +103,6 @@ Ejemplo:
 ```java
 AuditableEntity
 PriceEntity
-BrandEntity
 ```
 
 ---
@@ -155,7 +154,8 @@ GlobalExceptionHandler
   "http_status_code": 404,
   "error_code": 40402,
   "error_message": "Price not found",
-  "ex_message": "Price not found for brand 2 and product 35455"
+  "ex_message": "Price not found for brand 2 and product 35455",
+  "ex_track_trace": "[com.ssdjr2.chall.sg.inditex_prices.service.impl.PrinceServiceImpl.search ..."
 }
 ```
 
@@ -166,8 +166,7 @@ GlobalExceptionHandler
 | 400  | 40000  | Bad Request           |
 | 400  | 40001  | Validation Errors     |
 | 404  | 40400  | Not Found             |
-| 404  | 40401  | Brand Not Found       |
-| 404  | 40402  | Price Not Found       |
+| 404  | 40401  | Price Not Found       |
 | 500  | 50000  | Internal Server Error |
 
 ---
@@ -205,11 +204,10 @@ Permite registrar el contenido de las peticiones salientes.
 ```
 [INFO-REQ] » POST /rest/v1/prices/search
 PriceController.search coming into ...
-Request DTO: PriceSearchQueryDTO[brandId=1, productId=35455, applicationDate=2020-06-16T21:00]
-Hibernate: select be1_0.brand_id,be1_0.created_at,be1_0.brand_name,be1_0.updated_at from ecommerce.brands be1_0 where be1_0.brand_id=?
-Hibernate: select pe1_0.price_id,pe1_0.brand_id,pe1_0.created_at,pe1_0.currency,pe1_0.end_date,pe1_0.price,pe1_0.price_list,pe1_0.priority,pe1_0.product_id,pe1_0.start_date,pe1_0.updated_at from ecommerce.prices pe1_0 where pe1_0.brand_id=? and pe1_0.product_id=? and ? between pe1_0.start_date and pe1_0.end_date order by pe1_0.priority desc fetch first 1 rows only
-Response DTO: PriceSearchResponseDTO[brandId=1, productId=35455, priceList=4, applicationDates=ApplicationDatesResponseDTO[startDate=2020-06-15T16:00, endDate=2020-12-31T23:59:59], money=MoneyResponseDTO[price=38.95, currency=EUR]]
-PriceController.search going out in 896 ms ...
+Request DTO: PriceSearchQueryDTO[brandId=1, productId=35455, applicationDate=2020-06-14T10:00]
+Hibernate: select pe1_0.price_id,pe1_0.brand_id,pe1_0.created_at,pe1_0.currency,pe1_0.end_date,pe1_0.price,pe1_0.price_list,pe1_0.priority,pe1_0.product_id,pe1_0.start_date,pe1_0.updated_at from ecommerce.prices pe1_0 join ecommerce.brands b1_0 on b1_0.brand_id=pe1_0.brand_id where b1_0.brand_id=? and pe1_0.product_id=? and pe1_0.start_date<=? and pe1_0.end_date>=? order by pe1_0.priority desc fetch first ? rows only
+Response DTO: PriceSearchResponseDTO[brandId=1, productId=35455, priceList=1, applicationDates=ApplicationDatesResponseDTO[startDate=2020-06-14T00:00, endDate=2020-12-31T23:59:59], money=MoneyResponseDTO[price=35.50, currency=EUR]]
+PriceController.search going out in 7 ms ...
 ```
 
 ---
@@ -314,6 +312,7 @@ El proyecto utiliza:
 * JUnit 5
 * Mockito
 * Spring Boot Test
+* Cucumber & Gherkin
 
 ---
 
@@ -336,8 +335,7 @@ La colección incluye scripts de pruebas (`Tests` en Postman) que validan autom�
 8.  **Test 08:** Petición con un product_id como null.
 9.  **Test 09:** Petición con un product_id menor que 1.
 10. **Test 10:** Petición con un date como null.
-11. **Test 11:** Petición con un brand que no existe.
-12. **Test 12:** Petición con un product que no existe.
+11. **Test 11:** Petición con un price que no existe.
 
 ### Cómo ejecutar las pruebas en Postman:
 1.  Abre Postman e importa el fichero (`Import` -> selecciona los archivos `.json`).
@@ -350,7 +348,7 @@ La colección incluye scripts de pruebas (`Tests` en Postman) que validan autom�
 
 La aplicación utiliza una base de datos embebida H2 para simplificar la ejecución de la prueba técnica.
 
-La carga inicial de datos se realiza mediante scripts SQL incluidos en el proyecto como son schema.sql y data.sql.
+La carga inicial de datos se realiza mediante scripts SQL incluidos en la carpeta `/resource/db` como son schema.sql y data.sql.
 
 ---
 
@@ -361,30 +359,27 @@ com.ssdjr2.chall.sg.inditex_prices
 
 ├── config
 │   ├── advice
-│   ├── interceptors
-│   └── properties
+│   └── interceptors
 │
 ├── controller
 │   ├── dto
+│   ├── exception
+│   │   ├── custom
+│   │   └── handler
 │   └── mapper
 │
 ├── domain
 │   ├── exception
 │   └── model
 │
-├── exception
-│   ├── custom
-│   └── handler
-│
 ├── persistence
 │   ├── entity
 │   ├── mapper
 │   └── repository
 │
-├── service
-│   └── impl
-│
-└── util
+└── service
+    └── impl
+
 ```
 
 ---

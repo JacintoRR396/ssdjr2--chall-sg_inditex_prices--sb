@@ -1,7 +1,7 @@
 package com.ssdjr2.chall.sg.inditex_prices.controller.mapper;
 
 import com.ssdjr2.chall.sg.inditex_prices.controller.dto.error.RespEntityErrorDTO;
-import com.ssdjr2.chall.sg.inditex_prices.exception.custom.CustomException;
+import com.ssdjr2.chall.sg.inditex_prices.controller.exception.custom.CustomException;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,8 +24,8 @@ public abstract class RespEntityErrorMapper {
 	public abstract RespEntityErrorDTO toDTO( CustomException ex, String timestamp );
 
 	@AfterMapping
-	protected RespEntityErrorDTO afterMappingTDTO( CustomException ex, String timestamp,
-																									@MappingTarget RespEntityErrorDTO errorDTO ) {
+	protected RespEntityErrorDTO afterMappingTDTO(CustomException ex, String timestamp,
+	                                              @MappingTarget RespEntityErrorDTO errorDTO ) {
 		if ( Objects.nonNull( ex.getValidationErrors() ) ) {
 			errorDTO.setValidationErrors( ex.getValidationErrors() );
 		}

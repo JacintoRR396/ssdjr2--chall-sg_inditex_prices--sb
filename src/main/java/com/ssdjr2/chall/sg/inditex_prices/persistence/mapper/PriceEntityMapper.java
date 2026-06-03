@@ -5,7 +5,7 @@ import com.ssdjr2.chall.sg.inditex_prices.persistence.entity.PriceEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {BrandEntityMapper.class, ApplicationDatesEntityMapper.class, MoneyEntityMapper.class})
+@Mapper(componentModel = "spring", uses = {ApplicationDatesEntityMapper.class, MoneyEntityMapper.class})
 public interface PriceEntityMapper {
 
 	/*

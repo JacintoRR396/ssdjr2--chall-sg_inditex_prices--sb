@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.3
 
 info:
   title: Challenge Sngular Inditex Prices API
@@ -76,6 +76,8 @@ paths:
                     error_message: "Bad Request: Validation errors"
                     validation_errors:
                       brand_id: "The field brandId is mandatory"
+                    ex_message: '400 BAD_REQUEST "Bad Request: Validation errors"'
+                    ex_track_trace: "[com.ssdjr2.chall.sg.inditex_prices.controller ..."
 
         '403':
           description: Forbidden
@@ -91,13 +93,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespEntityErrorDTO'
               examples:
-                validationError:
+                resourceNotFound:
                   value:
                     id: "08695c0c-b8ec-4a43-80fd-940dba827ec8"
                     timestamp: "2026-05-29T18:27:33.725+02:00"
                     http_status_code: 404
                     error_code: 40400
                     error_message: "Not Found"
+                    validation_errors: null
+                    ex_message: "PriceNotFoundException: No price found for given parameters"
+                    ex_track_trace: "[com.ssdjr2.chall.sg.inditex_prices.service.impl.PrinceServiceImpl ..."
 
         '405':
           description: Method not allowed
@@ -136,6 +141,19 @@ paths:
 
 components:
   schemas:
+    Identifier:
+      type: integer
+      format: int32
+      minimum: 1
+      description: Base identifier validation rules for numeric IDs.
+
+    LocalDateTime:
+      type: string
+      pattern: '^[-+]*\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
+      description: Local date-time without timezone offset (ISO-8601 format)
+      example:
+        - '2020-06-14T10:00:00'
+
     PriceSearchQueryDTO:
       type: object
       required:
@@ -144,25 +162,18 @@ components:
         - application_date
       properties:
         brand_id:
-          type: integer
-          format: int32
-          minimum: 1
+          $ref: '#/components/schemas/Identifier'
           description: Brand identifier
           examples:
             - 1
         product_id:
-          type: integer
-          format: int32
-          minimum: 1
+          $ref: '#/components/schemas/Identifier'
           description: Product identifier
           examples:
             - 35455
         application_date:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/LocalDateTime'
           description: Date used to determine the applicable price
-          examples:
-            - '2020-06-14T10:00:00Z'
 
     PriceSearchResponseDTO:
       type: object
@@ -174,21 +185,20 @@ components:
         - money
       properties:
         brand_id:
-          type: integer
-          format: int32
+          $ref: '#/components/schemas/Identifier'
+          description: Brand identifier
           examples:
             - 1
         product_id:
-          type: integer
-          format: int32
+          $ref: '#/components/schemas/Identifier'
+          description: Product identifier
           examples:
             - 35455
         price_list:
-          type: integer
-          format: int32
+          $ref: '#/components/schemas/Identifier'
           description: Applied tariff identifier
           examples:
-            - 2
+            - 1
         application_dates:
           $ref: '#/components/schemas/ApplicationDatesResponseDTO'
         money:
@@ -201,15 +211,15 @@ components:
         - end_date
       properties:
         start_date:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/LocalDateTime'
+          description: Start date and time when the price list/tariff becomes applicable.
           examples:
-            - "2020-06-14T00:00:00Z"
+            - "2020-06-14T00:00:00"
         end_date:
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/LocalDateTime'
+          description: End date and time until when the price list/tariff remains applicable.
           examples:
-            - "2020-12-31T23:59:59Z"
+            - "2020-12-31T23:59:59"
 
     MoneyResponseDTO:
       type: object
@@ -219,12 +229,13 @@ components:
       properties:
         price:
           type: number
-          examples:
-            - 35.50
+          format: double
+          description: Price value with exact monetary scale
         currency:
           type: string
-          examples:
-            - EUR
+      example:
+        price: 35.50
+        currency: "EUR"
 
     RespEntityErrorDTO:
       type: object
@@ -232,36 +243,29 @@ components:
         id:
           type: string
           format: uuid
-          examples:
-            - "d290f1ee-6c54-4b01-90e6-d701748f0851"
         timestamp:
           type: string
           format: date-time
-          examples:
-            - "2026-05-29T10:15:30Z"
         http_status_code:
           type: integer
-          examples:
-            - 400
         error_code:
           type: integer
-          examples:
-            - 40001
         error_message:
           type: string
-          examples:
-            - "Bad Request: Validation errors"
         validation_errors:
-          anyOf:
-            - type: object
-              additionalProperties:
-                type: string
-            - type: "null"
+          type: object
+          nullable: true
+          additionalProperties:
+            type: string
         ex_message:
-          type:
-            - string
-            - "null"
+          type: string
+          nullable: true
         ex_track_trace:
-          type:
-            - string
-            - "null"
+          type: string
+          nullable: true
+      example:
+        id: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+        timestamp: "2026-05-29T10:15:30Z"
+        http_status_code: 400
+        error_code: 40001
+        error_message: "Bad Request: Validation errors"

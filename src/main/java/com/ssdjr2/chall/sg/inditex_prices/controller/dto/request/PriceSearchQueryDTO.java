@@ -1,5 +1,6 @@
 package com.ssdjr2.chall.sg.inditex_prices.controller.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -19,4 +20,5 @@ public record PriceSearchQueryDTO(
 
 		@JsonProperty("application_date")
 		@NotNull(message = "{validation.price.applicationDate.notNull}")
+		@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 		LocalDateTime applicationDate) { }

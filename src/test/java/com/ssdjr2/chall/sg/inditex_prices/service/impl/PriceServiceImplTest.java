@@ -3,18 +3,15 @@ package com.ssdjr2.chall.sg.inditex_prices.service.impl;
 import com.ssdjr2.chall.sg.inditex_prices.controller.dto.request.PriceSearchQueryDTO;
 import com.ssdjr2.chall.sg.inditex_prices.controller.dto.response.PriceSearchResponseDTO;
 import com.ssdjr2.chall.sg.inditex_prices.controller.mapper.PriceDtoMapper;
-import com.ssdjr2.chall.sg.inditex_prices.domain.exception.BrandNotFoundException;
 import com.ssdjr2.chall.sg.inditex_prices.domain.exception.PriceNotFoundException;
 import com.ssdjr2.chall.sg.inditex_prices.domain.model.ApplicationDates;
-import com.ssdjr2.chall.sg.inditex_prices.domain.model.Brand;
 import com.ssdjr2.chall.sg.inditex_prices.domain.model.Price;
-import com.ssdjr2.chall.sg.inditex_prices.factory.FactoryBrand;
-import com.ssdjr2.chall.sg.inditex_prices.factory.FactoryDate;
-import com.ssdjr2.chall.sg.inditex_prices.factory.FactoryPrice;
-import com.ssdjr2.chall.sg.inditex_prices.persistence.entity.BrandEntity;
+import com.ssdjr2.chall.sg.inditex_prices.factory.ApplicationDatesMother;
+import com.ssdjr2.chall.sg.inditex_prices.factory.BrandMother;
+import com.ssdjr2.chall.sg.inditex_prices.factory.PriceEntityMother;
+import com.ssdjr2.chall.sg.inditex_prices.factory.PriceMother;
 import com.ssdjr2.chall.sg.inditex_prices.persistence.entity.PriceEntity;
 import com.ssdjr2.chall.sg.inditex_prices.persistence.mapper.PriceEntityMapper;
-import com.ssdjr2.chall.sg.inditex_prices.persistence.repository.BrandRepository;
 import com.ssdjr2.chall.sg.inditex_prices.persistence.repository.PriceRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,9 +38,6 @@ class PriceServiceImplTest {
 	@Mock
 	private PriceRepository priceRepository;
 
-	@Mock
-	private BrandRepository brandRepository;
-
 	@InjectMocks
 	private PriceServiceImpl service;
 
@@ -51,76 +45,44 @@ class PriceServiceImplTest {
 	@DisplayName("Given existing brand and matching price when search then return response")
 	void givenExistingBrandAndMatchingPrice_whenSearch_thenReturnResponse() {
 		PriceSearchQueryDTO queryDTO = mock( PriceSearchQueryDTO.class );
-		Brand brand = FactoryBrand.createBrandZara();
 		ApplicationDates dates = ApplicationDates.builder()
-				.startDate( FactoryDate.test1() )
+				.startDate( ApplicationDatesMother.test1() )
 				.build();
-		Price priceSearch = FactoryPrice.createPriceSearch( brand, dates );
-		BrandEntity brandEntity = FactoryBrand.createBrandEntityZara();
-		PriceEntity priceEntity = FactoryPrice.createPriceEntity();
-		Price priceFound = FactoryPrice.createPriceFound( 1 );
+		Price priceSearch = PriceMother.createPriceSearch( BrandMother.ZARA_ID, dates );
+		PriceEntity priceEntity = PriceEntityMother.createPriceEntity();
+		Price priceFound = PriceMother.createPriceFound();
 		PriceSearchResponseDTO responseDTO = mock(PriceSearchResponseDTO.class);
 
-		when(queryDTO.brandId()).thenReturn(1L);
-		when(brandRepository.findById(1L)).thenReturn(Optional.of(brandEntity));
-		when(priceDtoMapper.fromPriceQueryDTOToPrice(queryDTO))
-				.thenReturn(priceSearch);
+		when(priceDtoMapper.fromPriceQueryDTOToPrice(queryDTO)).thenReturn(priceSearch);
 		when(priceRepository
-				.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
-						FactoryBrand.ZARA_ID, FactoryPrice.PRODUCT_ID_VALID,	dates.getStartDate(), dates.getEndDate() ) )
+				.findPriceByBrandIdAndProductIdAndApplicationDate(
+						BrandMother.ZARA_ID, PriceMother.PRODUCT_ID_VALID,	dates.getStartDate() ) )
 				.thenReturn(Optional.of(priceEntity));
-		when(priceEntityMapper.fromPriceEntityToPrice(priceEntity))
-				.thenReturn(priceFound);
-		when(priceDtoMapper.fromPriceToPriceSearchResponseDTO(priceFound))
-				.thenReturn(responseDTO);
+		when(priceEntityMapper.fromPriceEntityToPrice(priceEntity)).thenReturn(priceFound);
+		when(priceDtoMapper.fromPriceToPriceSearchResponseDTO(priceFound)).thenReturn(responseDTO);
 
 		PriceSearchResponseDTO result =	service.search(queryDTO);
 
-		assertThat(result).isNotNull();
-		assertThat(result).isSameAs(responseDTO);
+		assertThat(result)
+				.isNotNull()
+				.isSameAs(responseDTO);
 
-		verify(brandRepository)
-				.findById(1L);
-		verify(priceRepository)
-				.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
-						FactoryBrand.ZARA_ID,	FactoryPrice.PRODUCT_ID_VALID, dates.getStartDate(), dates.getEndDate() );
-	}
-
-	@Test
-	@DisplayName("Given non existing brand when search then throw BrandNotFoundException")
-	void givenNonExistingBrand_whenSearch_thenThrowBrandNotFoundException() {
-		PriceSearchQueryDTO queryDTO = mock(PriceSearchQueryDTO.class);
-
-		when(queryDTO.brandId()).thenReturn(FactoryBrand.INVALID_ID);
-		when(brandRepository.findById(FactoryBrand.INVALID_ID)).thenReturn(Optional.empty());
-
-		assertThatThrownBy(() -> service.search(queryDTO))
-				.isInstanceOf(BrandNotFoundException.class);
-
-		verify(priceRepository, never())
-				.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
-						anyLong(),	anyInt(),	any(), any() );
+		verify(priceRepository).findPriceByBrandIdAndProductIdAndApplicationDate(
+						BrandMother.ZARA_ID,	PriceMother.PRODUCT_ID_VALID, dates.getStartDate() );
 	}
 
 	@Test
 	@DisplayName("Given existing brand and missing price when search then throw PriceNotFoundException")
 	void givenExistingBrandAndMissingPrice_whenSearch_thenThrowPriceNotFoundException() {
 		PriceSearchQueryDTO queryDTO = mock( PriceSearchQueryDTO.class );
-		Brand brand = FactoryBrand.createBrandZara();
 		ApplicationDates dates = ApplicationDates.builder()
-				.startDate( FactoryDate.test1() )
+				.startDate( ApplicationDatesMother.test1() )
 				.build();
-		Price priceSearch = FactoryPrice.createPriceSearch( brand, dates );
-		BrandEntity brandEntity = FactoryBrand.createBrandEntityZara();
+		Price priceSearch = PriceMother.createPriceSearch( BrandMother.ZARA_ID, dates );
 
-		when(queryDTO.brandId()).thenReturn(FactoryBrand.ZARA_ID);
-		when(brandRepository.findById(FactoryBrand.ZARA_ID))
-				.thenReturn(Optional.of(brandEntity));
-		when(priceDtoMapper.fromPriceQueryDTOToPrice(queryDTO))
-				.thenReturn(priceSearch);
-		when(priceRepository
-				.findFirstByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqualOrderByPriorityDesc(
-						FactoryBrand.ZARA_ID,	FactoryPrice.PRODUCT_ID_VALID, dates.getStartDate(), dates.getEndDate() ) )
+		when(priceDtoMapper.fromPriceQueryDTOToPrice(queryDTO)).thenReturn(priceSearch);
+		when(priceRepository.findPriceByBrandIdAndProductIdAndApplicationDate(
+						BrandMother.ZARA_ID,	PriceMother.PRODUCT_ID_VALID, dates.getStartDate() ) )
 				.thenReturn(Optional.empty());
 
 		assertThatThrownBy(() -> service.search(queryDTO))

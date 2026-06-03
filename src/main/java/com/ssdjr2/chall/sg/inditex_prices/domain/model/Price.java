@@ -9,7 +9,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 public class Price {
 	private Long id;
-	private Brand brand;
+	private Long brandId;
 	private Integer productId;
 	private Integer priceList;
 	private Integer priority;

@@ -6,14 +6,14 @@ import com.ssdjr2.chall.sg.inditex_prices.domain.model.Price;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {BrandDtoMapper.class, ApplicationDatesDtoMapper.class, MoneyDtoMapper.class})
+@Mapper(componentModel = "spring", uses = {ApplicationDatesDtoMapper.class, MoneyDtoMapper.class})
 public interface PriceDtoMapper {
 
 	/*
 	 * DTO -> DOMAIN
 	 */
 	@Mapping(target = "id", ignore = true)
-	@Mapping(source = "brandId", target = "brand")
+	@Mapping(source = "brandId", target = "brandId")
 	@Mapping(source = "productId", target = "productId")
 	@Mapping(target = "priceList", ignore = true)
 	@Mapping(target = "priority", ignore = true)
@@ -24,6 +24,5 @@ public interface PriceDtoMapper {
 	/*
 	 * DOMAIN -> DTO
 	 */
-	@Mapping(source = "brand.id", target = "brandId")
 	PriceSearchResponseDTO fromPriceToPriceSearchResponseDTO(Price price);
 }

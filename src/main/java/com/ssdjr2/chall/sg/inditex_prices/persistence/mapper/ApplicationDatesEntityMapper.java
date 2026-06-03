@@ -13,6 +13,9 @@ public interface ApplicationDatesEntityMapper {
 	 * ENTITY -> DOMAIN
 	 */
 	default ApplicationDates fromPriceEntityToApplicationDates(PriceEntity entity) {
+		if (Objects.isNull(entity)) {
+			return null;
+		}
 
 		if (Objects.isNull(entity.getStartDate()) && Objects.isNull(entity.getEndDate())) {
 			return null;
