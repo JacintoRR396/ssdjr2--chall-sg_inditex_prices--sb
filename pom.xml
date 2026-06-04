@@ -17,6 +17,12 @@
 	<description>
 		Microservice to overcome the technical test proposed by Inditex to the Sngular team (Java 21 + SpringFramework6 + SpringBoot3)
 	</description>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>common</module>
+		<module>price-service</module>
+	</modules>
 
 	<properties>
 		<!-- Application -->
@@ -35,6 +41,46 @@
 		<io.cucumber.version>7.20.1</io.cucumber.version>
 		<org.junit-platform>1.11.4</org.junit-platform>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.ssdjr2.chall</groupId>
+				<artifactId>common-domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ssdjr2.chall</groupId>
+				<artifactId>common-app</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ssdjr2.chall</groupId>
+				<artifactId>price-domain-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ssdjr2.chall</groupId>
+				<artifactId>price-domain-app-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ssdjr2.chall</groupId>
+				<artifactId>price-domain-container</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ssdjr2.chall</groupId>
+				<artifactId>price-application</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ssdjr2.chall</groupId>
+				<artifactId>price-dataaccess</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<!-- Spring Boot -->
@@ -97,6 +143,7 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+			<scope>provided</scope>
 		</dependency>
 		<!-- MapStruct -->
 		<dependency>
