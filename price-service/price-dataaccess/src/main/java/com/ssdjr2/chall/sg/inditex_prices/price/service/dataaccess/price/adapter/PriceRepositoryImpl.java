@@ -5,10 +5,12 @@ import com.ssdjr2.chall.sg.inditex_prices.price.service.dataaccess.price.reposit
 import com.ssdjr2.chall.sg.inditex_prices.price.service.domain.entity.Price;
 import com.ssdjr2.chall.sg.inditex_prices.price.service.domain.ports.output.repository.PriceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Component
 public class PriceRepositoryImpl implements PriceRepository {
 
 	private final PriceDataAccessMapper priceDataAccessMapper;

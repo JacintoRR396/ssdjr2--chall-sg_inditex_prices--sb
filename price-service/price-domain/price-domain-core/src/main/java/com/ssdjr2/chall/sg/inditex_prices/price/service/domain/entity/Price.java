@@ -36,8 +36,6 @@ public class Price extends AggregateRoot<PriceId> {
 			throw new PriceDomainException("error.product_id.null");
 		}
 		this.checkNumberGreaterThanZero(productId.getId());
-		this.checkNumberGreaterThanZero(priceList);
-		this.checkNumberGreaterThanZero(priority);
 	}
 
 	private void checkNumberGreaterThanZero(Number value){

@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 public enum AppExceptionCodeEnum {
 
 	STATUS_40000( HttpStatus.BAD_REQUEST, 40000, "Bad Request" ),
-	STATUS_40001( HttpStatus.BAD_REQUEST, 40001, "Bad Request: Validation errors" ),
+	STATUS_40001( HttpStatus.BAD_REQUEST, 40001, "Bad Request: Validation errors about dto" ),
+	STATUS_40002( HttpStatus.BAD_REQUEST, 40002, "Bad Request: Validation errors about domain" ),
 	STATUS_40300( HttpStatus.FORBIDDEN, 40300, "Forbidden" ),
 	STATUS_40400( HttpStatus.NOT_FOUND, 40400, "Not Found" ),
 	STATUS_40401( HttpStatus.NOT_FOUND, 40401, "Price not Found" ),

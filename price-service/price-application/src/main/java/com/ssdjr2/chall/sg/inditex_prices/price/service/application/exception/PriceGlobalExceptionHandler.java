@@ -5,6 +5,7 @@ import com.ssdjr2.chall.sg.inditex_prices.application.exception.config.propertie
 import com.ssdjr2.chall.sg.inditex_prices.application.exception.error.RespEntityErrorDTO;
 import com.ssdjr2.chall.sg.inditex_prices.application.exception.handler.GlobalExceptionHandler;
 import com.ssdjr2.chall.sg.inditex_prices.application.exception.mapper.RespEntityErrorMapper;
+import com.ssdjr2.chall.sg.inditex_prices.price.service.domain.exception.PriceDomainException;
 import com.ssdjr2.chall.sg.inditex_prices.price.service.domain.exception.PriceNotFoundException;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,11 @@ public class PriceGlobalExceptionHandler extends GlobalExceptionHandler {
 
 	public PriceGlobalExceptionHandler(LoggerProperties loggerProperties, RespEntityErrorMapper respEntityErrorMapper) {
 		super(loggerProperties, respEntityErrorMapper);
+	}
+
+	@ExceptionHandler(PriceDomainException.class)
+	public ResponseEntity<RespEntityErrorDTO> handlePriceDomain(PriceDomainException ex ) {
+		return super.createRespEntityError( ex, AppExceptionCodeEnum.STATUS_40002,null);
 	}
 
 	@ExceptionHandler(PriceNotFoundException.class)

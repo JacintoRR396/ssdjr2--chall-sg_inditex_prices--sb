@@ -33,7 +33,7 @@ class RespEntityErrorMapperTest {
 		assertThat(result.getTimestamp()).isEqualTo(expectedTimestamp);
 		assertThat(result.getHttpStatusCode()).isEqualTo(400);
 		assertThat(result.getErrorCode()).isEqualTo(40001);
-		assertThat(result.getErrorMessage()).isEqualTo("Bad Request: Validation errors");
+		assertThat(result.getErrorMessage()).isEqualTo("Bad Request: Validation errors about dto");
 
 		assertThat(result.getValidationErrors()).containsAllEntriesOf(expectedValidationErrors);
 		assertThat(result.getExMessage()).isEqualTo(originalException.getMessage());

@@ -11,6 +11,7 @@ import com.ssdjr2.chall.sg.inditex_prices.price.service.application.factory.Pric
 import com.ssdjr2.chall.sg.inditex_prices.price.service.application.factory.PriceSearchQueryDTOMother;
 import com.ssdjr2.chall.sg.inditex_prices.price.service.application.rest.PriceController;
 import com.ssdjr2.chall.sg.inditex_prices.price.service.domain.dto.search.request.PriceSearchQueryDTO;
+import com.ssdjr2.chall.sg.inditex_prices.price.service.domain.exception.PriceDomainException;
 import com.ssdjr2.chall.sg.inditex_prices.price.service.domain.exception.PriceNotFoundException;
 import com.ssdjr2.chall.sg.inditex_prices.price.service.domain.ports.input.service.PriceApplicationService;
 import org.junit.jupiter.api.Test;
@@ -61,6 +62,34 @@ class PriceGlobalExceptionHandlerTest {
 
 	@MockitoBean
 	private PriceApplicationService priceApplicationService;
+
+	@Test
+	void givenInvalidValidQuery_whenSearchIsCalled_thenHandlerInterceptsAndReturns400() throws Exception {
+		PriceSearchQueryDTO queryBody = PriceSearchQueryDTOMother.createPriceSearchQueryDTOAboutTest1();
+		PriceDomainException domainException = new PriceDomainException("a field mandatory is null");
+		RespEntityErrorDTO expectedErrorDto = new RespEntityErrorDTO();
+		expectedErrorDto.setHttpStatusCode(400);
+		expectedErrorDto.setErrorCode(40002);
+		expectedErrorDto.setErrorMessage("Data not valid");
+		expectedErrorDto.setExMessage(domainException.getMessage());
+
+		when(priceApplicationService.searchPrice(any(PriceSearchQueryDTO.class))).thenThrow(domainException);
+		when(respEntityErrorMapper.toDTO(any(CustomException.class), any(String.class)))
+				.thenReturn(expectedErrorDto);
+		when(loggerProperties.getLogMsgBaseWarning()).thenReturn("[WARN] »");
+		when(loggerProperties.getLogMsgLogFormatter()).thenReturn("{} {} : {}");
+		when(loggerProperties.getLogMsgDateFormatter()).thenReturn("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
+		ResultActions resultActions = mockMvc.perform(
+				MockMvcRequestBuilders.post(URL_PATH_SEARCH)
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(queryBody)));
+
+		resultActions
+				.andExpect(MockMvcResultMatchers.status().isBadRequest())
+				.andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(expectedErrorDto)));
+	}
 
 	@Test
 	void givenValidQueryButNonExistingPrice_whenSearchIsCalled_thenHandlerInterceptsAndReturns404() throws Exception {

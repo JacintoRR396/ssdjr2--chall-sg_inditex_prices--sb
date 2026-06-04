@@ -40,9 +40,9 @@ class PriceTest {
 	}
 
 	@Test
-	@DisplayName("GIVEN Price with price list null WHEN initPrice is called THEN throw PriceDomainException")
-	void givenPriceListNull_whenInitPrice_thenThrowException() {
-		Price nullPrice = PriceMother.createPriceWithPriceListNull();
+	@DisplayName("GIVEN Price with brand id value null WHEN initPrice is called THEN throw PriceDomainException")
+	void givenBrandIdValueListNull_whenInitPrice_thenThrowException() {
+		Price nullPrice = PriceMother.createPriceWithBrandIdValueNull();
 
 		PriceDomainException exception = assertThrows(PriceDomainException.class,
 				nullPrice::initPrice);

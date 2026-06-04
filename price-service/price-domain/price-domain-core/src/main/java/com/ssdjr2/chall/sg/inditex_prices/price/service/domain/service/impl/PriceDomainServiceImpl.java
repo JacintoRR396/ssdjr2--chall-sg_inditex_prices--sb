@@ -10,7 +10,5 @@ public class PriceDomainServiceImpl implements PriceDomainService {
 	@Override
 	public void validateAndInitiatePrice(Price price) {
 		price.initPrice();
-
-		LOGGER.info("Price with id: {} is initiated", price.getId().getId());
 	}
 }

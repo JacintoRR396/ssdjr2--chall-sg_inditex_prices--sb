@@ -45,11 +45,9 @@ public class PriceMother {
 				.build();
 	}
 
-	public static Price createPriceWithPriceListNull( ) {
+	public static Price createPriceWithBrandIdValueNull( ) {
 		return Price.builder()
-				.brandId( new BrandId( BrandMother.ZARA_ID ) )
-				.productId( new ProductId( PRODUCT_ID_VALID ) )
-				.priceList( null )
+				.brandId( new BrandId( null ) )
 				.applicationDates(
 						new ApplicationDates( ApplicationDatesMother.test1(), ApplicationDatesMother.test1() ) )
 				.build();
