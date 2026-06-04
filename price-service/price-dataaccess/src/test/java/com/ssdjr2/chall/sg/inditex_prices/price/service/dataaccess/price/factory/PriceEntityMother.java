@@ -52,14 +52,4 @@ public class PriceEntityMother {
 
 		return entity;
 	}
-
-	public static PriceEntity createPriceEntityWithPriceNull() {
-		PriceEntity entity = new PriceEntity();
-		entity.setStartDate( START_DATE_TARIFF1 );
-		entity.setEndDate( END_DATE_TARIFF1 );
-		entity.setPrice( null );
-		entity.setCurrency( MoneyMother.CURRENCY );
-
-		return entity;
-	}
 }

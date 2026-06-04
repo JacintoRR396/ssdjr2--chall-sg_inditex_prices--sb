@@ -5,6 +5,7 @@ import com.ssdjr2.chall.sg.inditex_prices.application.exception.config.propertie
 import com.ssdjr2.chall.sg.inditex_prices.application.exception.custom.CustomException;
 import com.ssdjr2.chall.sg.inditex_prices.application.exception.error.RespEntityErrorDTO;
 import com.ssdjr2.chall.sg.inditex_prices.application.exception.mapper.RespEntityErrorMapper;
+import com.ssdjr2.chall.sg.inditex_prices.price.service.application.TestInfrastructureConfig;
 import com.ssdjr2.chall.sg.inditex_prices.price.service.application.factory.BrandMother;
 import com.ssdjr2.chall.sg.inditex_prices.price.service.application.factory.PriceMother;
 import com.ssdjr2.chall.sg.inditex_prices.price.service.application.factory.PriceSearchQueryDTOMother;
@@ -14,10 +15,13 @@ import com.ssdjr2.chall.sg.inditex_prices.price.service.domain.exception.PriceNo
 import com.ssdjr2.chall.sg.inditex_prices.price.service.domain.ports.input.service.PriceApplicationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -27,7 +31,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@WebMvcTest(controllers = PriceController.class)
+@WebMvcTest(
+		controllers = PriceController.class,
+		excludeAutoConfiguration = {
+				HibernateJpaAutoConfiguration.class,
+				DataSourceAutoConfiguration.class
+		}
+)
+@ContextConfiguration(classes = TestInfrastructureConfig.class)
 @Import({
 		PriceGlobalExceptionHandler.class,
 		HttpEncodingAutoConfiguration.class

@@ -6,9 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class MoneyTest {
 
@@ -43,5 +43,45 @@ class MoneyTest {
 	void givenNegativePrice_whenCreatingMoney_thenThrowException() {
 		assertThrows(DomainException.class,	MoneyMother::createMoneyWithPriceNegative,
 				"error.money.negative_price");
+	}
+
+	@Test
+	@DisplayName("GIVEN two Money objects with same values WHEN comparing THEN they are equal")
+	void givenSameValues_whenComparing_thenAreEqual() {
+		Money money1 = MoneyMother.createMoneyTariff1();
+		Money money2 = MoneyMother.createMoneyTariff1();
+
+		assertEquals(money1, money2);
+		assertEquals(money1.hashCode(), money2.hashCode());
+	}
+
+	@Test
+	@DisplayName("GIVEN two Money objects with different values WHEN comparing THEN they are not equal")
+	void givenDifferentValues_whenComparing_thenAreNotEqual() {
+		Money money1 = MoneyMother.createMoneyTariff1();
+		Money money2 = MoneyMother.createMoneyTariff2();
+
+		assertNotEquals(money1, money2);
+		assertNotEquals(money1.hashCode(), money2.hashCode());
+	}
+
+	@Test
+	@DisplayName("GIVEN Money with different scale WHEN comparing THEN they are considered equal")
+	void givenDifferentScale_whenComparing_thenAreEqual() {
+		Money money1 = MoneyMother.createMoneyTariff1();
+		Money money2 = MoneyMother.createMoneyTariff1Rounding();
+
+		assertEquals(money1, money2);
+		assertEquals(money1.hashCode(), money2.hashCode());
+	}
+
+	@Test
+	@DisplayName("GIVEN null or different class WHEN comparing THEN return false")
+	void givenDifferentTypes_whenComparing_thenReturnFalse() {
+		ApplicationDates dates = new ApplicationDates(
+				LocalDateTime.now(), LocalDateTime.now().plusHours(1));
+
+		assertNotEquals(null, dates, "Should not be equal to null");
+		assertNotEquals("A String", dates, "Should not be equal to a different class");
 	}
 }

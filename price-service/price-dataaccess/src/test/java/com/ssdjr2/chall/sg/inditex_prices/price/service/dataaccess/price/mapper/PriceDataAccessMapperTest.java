@@ -28,8 +28,8 @@ class PriceDataAccessMapperTest {
 		ApplicationDatesDataAccessMapper datesMapper = Mappers.getMapper(ApplicationDatesDataAccessMapper.class);
 		MoneyDataAccessMapper moneyMapper = Mappers.getMapper(MoneyDataAccessMapper.class);
 
-		ReflectionTestUtils.setField(mapper, "applicationDatesEntityMapper", datesMapper);
-		ReflectionTestUtils.setField(mapper, "moneyEntityMapper", moneyMapper);
+		ReflectionTestUtils.setField(mapper, "applicationDatesDataAccessMapper", datesMapper);
+		ReflectionTestUtils.setField(mapper, "moneyDataAccessMapper", moneyMapper);
 	}
 
 	@Test

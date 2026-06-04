@@ -28,7 +28,13 @@ public class Price extends AggregateRoot<PriceId> {
 	}
 
 	private void validatePrice() {
+		if (Objects.isNull(brandId)) {
+			throw new PriceDomainException("error.brand_id.null");
+		}
 		this.checkNumberGreaterThanZero(brandId.getId());
+		if (Objects.isNull(productId)) {
+			throw new PriceDomainException("error.product_id.null");
+		}
 		this.checkNumberGreaterThanZero(productId.getId());
 		this.checkNumberGreaterThanZero(priceList);
 		this.checkNumberGreaterThanZero(priority);
@@ -38,6 +44,7 @@ public class Price extends AggregateRoot<PriceId> {
 		if( Objects.isNull(value) ) {
 			throw new PriceDomainException("error.price.number.null");
 		}
+
 		if( value.doubleValue() <= 0){
 			throw new PriceDomainException("error.price.number.invalid_range");
 		}
